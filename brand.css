@@ -1,0 +1,296 @@
+/* ─── Florence & Olivia — Brand CSS ─── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+  --void:    #0C0F0A;
+  --pine:    #1A2418;
+  --canopy:  #243020;
+  --moss:    #5C6B4E;
+  --lichen:  #8A9B7A;
+  --mist:    #C8D5BC;
+  --linen:   #F2EDE6;
+  --salt:    #FDFCF9;
+  --gold:    #B09458;
+  --rust:    #9E5040;
+  --border:  rgba(138,155,122,0.15);
+  --text:    rgba(200,213,188,0.82);
+  --text-dim:rgba(138,155,122,0.5);
+  --text-bright:#E8F0E0;
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+
+html { scroll-behavior:smooth; }
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Typography ── */
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+h1,h2,h3,h4 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 300; color: var(--text-bright); line-height: 1.2; }
+h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); letter-spacing: .02em; }
+h2 { font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: .03em; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.8rem); }
+p { color: var(--text); line-height: 1.85; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ── Eyebrow ── */
+.eyebrow {
+  font-size: 10px; letter-spacing: .35em; text-transform: uppercase;
+  color: var(--lichen); font-family: 'Inter', sans-serif; font-weight: 400;
+}
+
+/* ── Rule ── */
+.rule { width: 32px; height: 1px; background: var(--moss); }
+.rule-center { margin: 0 auto; }
+
+/* ── Nav ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 40px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background .4s, border-color .4s;
+}
+.nav.scrolled {
+  background: rgba(12,15,10,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px; font-weight: 300; letter-spacing: .15em;
+  color: var(--text-bright);
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo em { font-style: italic; color: var(--lichen); }
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+}
+.nav-links a {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--text-dim); transition: color .2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--text-bright); }
+.nav-book {
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  background: var(--canopy); color: var(--lichen);
+  border: 1px solid rgba(138,155,122,0.25);
+  padding: 9px 20px; cursor: pointer; font-family: inherit;
+  transition: all .2s;
+}
+.nav-book:hover { background: var(--lichen); color: var(--void); }
+.nav-hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 8px;
+}
+.nav-hamburger span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+/* ── Mobile nav drawer ── */
+.nav-drawer {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(12,15,10,0.98);
+  display: flex; flex-direction: column;
+  padding: 80px 40px 40px;
+  gap: 8px;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+.nav-drawer.open { transform: translateX(0); }
+.nav-drawer a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 300; color: var(--text);
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.nav-drawer-close {
+  position: absolute; top: 20px; right: 20px;
+  background: none; border: none; color: var(--text-dim);
+  font-size: 20px; cursor: pointer; padding: 8px;
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative; height: 100svh; min-height: 600px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 60px 60px;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  filter: brightness(.5) saturate(.75);
+  transform: scale(1.04);
+  transition: transform 8s ease-out;
+}
+.hero-bg.loaded { transform: scale(1); }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(12,15,10,.9) 0%, rgba(12,15,10,.2) 50%, transparent 100%);
+}
+.hero-content { position: relative; z-index: 2; max-width: 720px; }
+.hero-eyebrow { margin-bottom: 20px; }
+.hero-title { margin-bottom: 20px; }
+.hero-subtitle { font-size: 15px; color: var(--text); max-width: 480px; line-height: 1.8; margin-bottom: 32px; }
+.hero-actions { display: flex; gap: 16px; align-items: center; }
+.hero-scroll {
+  position: absolute; bottom: 32px; right: 60px; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim);
+}
+.scroll-line { width: 1px; height: 40px; background: var(--moss); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; font-size: 10px;
+  letter-spacing: .22em; text-transform: uppercase;
+  cursor: pointer; border: none; padding: 14px 28px;
+  transition: all .2s; font-weight: 400;
+}
+.btn-primary { background: var(--canopy); color: var(--lichen); border: 1px solid rgba(138,155,122,0.25); }
+.btn-primary:hover { background: var(--lichen); color: var(--void); }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid rgba(200,213,188,0.3); }
+.btn-ghost:hover { border-color: var(--lichen); color: var(--lichen); }
+.btn-gold { background: var(--gold); color: var(--void); }
+
+/* ── Sections ── */
+.section { padding: 100px 60px; }
+.section-sm { padding: 60px 60px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.container-narrow { max-width: 760px; margin: 0 auto; }
+
+/* ── Two col ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.two-col-img { aspect-ratio: 4/5; overflow: hidden; }
+.two-col-img img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.85); transition: transform .8s; }
+.two-col-img:hover img { transform: scale(1.04); }
+
+/* ── Gallery ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-rows: 320px 320px;
+  gap: 3px;
+}
+.gallery-item { overflow: hidden; position: relative; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.75) saturate(.8); transition: transform .8s, filter .5s; }
+.gallery-item:hover img { transform: scale(1.05); filter: brightness(.9) saturate(1); }
+.gallery-span { grid-row: span 2; }
+.gallery-caption {
+  position: absolute; bottom: 12px; left: 14px;
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+  color: rgba(232,240,224,0.45);
+}
+
+/* ── Amenities grid ── */
+.amenities-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+.amenity-item { background: var(--pine); padding: 28px 24px; transition: background .3s; }
+.amenity-item:hover { background: var(--canopy); }
+.amenity-icon { font-size: 20px; margin-bottom: 12px; }
+.amenity-name { font-size: 12px; font-weight: 500; color: var(--text-bright); margin-bottom: 4px; }
+.amenity-desc { font-size: 11px; color: var(--text-dim); line-height: 1.6; }
+
+/* ── Seasons ── */
+.seasons-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+.season-item { background: var(--pine); padding: 32px 24px; }
+.season-label { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--lichen); margin-bottom: 8px; }
+.season-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--text-bright); margin-bottom: 4px; }
+.season-months { font-size: 11px; color: var(--text-dim); margin-bottom: 12px; }
+.season-temp { font-size: 11px; color: var(--moss); margin-bottom: 16px; }
+.season-desc { font-size: 12px; color: var(--text); line-height: 1.7; }
+.season-tag { display: inline-block; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+
+/* ── Local area ── */
+.local-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+.local-item { background: var(--pine); padding: 28px 24px; }
+.local-cat { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--lichen); margin-bottom: 12px; }
+.local-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text-bright); margin-bottom: 6px; }
+.local-dist { font-size: 11px; color: var(--text-dim); margin-bottom: 8px; }
+.local-desc { font-size: 12px; color: var(--text); line-height: 1.6; }
+
+/* ── Story ── */
+.story-block { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+.story-label { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--lichen); padding-top: 6px; }
+.story-text p { font-size: 15px; color: var(--text); line-height: 2; }
+.story-text p + p { margin-top: 20px; }
+
+/* ── Contact / CTA ── */
+.cta-block { text-align: center; padding: 100px 40px; }
+.cta-block h2 { margin-bottom: 16px; }
+.cta-block p { color: var(--text-dim); margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+/* ── Footer ── */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 60px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--text-dim); letter-spacing: .1em; }
+.footer-logo em { font-style: italic; color: var(--moss); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--text-dim); transition: color .2s; }
+.footer-links a:hover { color: var(--text); }
+.footer-ts { font-size: 10px; color: var(--text-dim); opacity: .4; letter-spacing: .1em; }
+
+/* ── Booking bar ── */
+.book-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
+  background: rgba(26,36,24,0.97);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  padding: 14px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  transform: translateY(100%);
+  transition: transform .4s cubic-bezier(.4,0,.2,1);
+}
+.book-bar.visible { transform: translateY(0); }
+.book-bar-prop { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text-bright); }
+.book-bar-prop em { font-style: italic; color: var(--lichen); }
+.book-bar-details { display: flex; gap: 32px; }
+.book-bar-detail { display: flex; flex-direction: column; gap: 2px; }
+.book-bar-detail strong { font-size: 14px; color: var(--text-bright); }
+.book-bar-detail span { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); }
+
+/* ── Divider ── */
+.divider { height: 1px; background: var(--border); margin: 0 60px; }
+
+/* ── Dark section ── */
+.section-dark { background: var(--pine); }
+.section-darker { background: var(--canopy); }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .amenities-grid { grid-template-columns: repeat(2, 1fr); }
+  .seasons-grid { grid-template-columns: repeat(2, 1fr); }
+  .local-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 260px 260px; }
+  .gallery-span { grid-row: span 1; }
+}
+
+@media (max-width: 768px) {
+  .section, .section-sm { padding: 60px 24px; }
+  .hero { padding: 40px 24px; }
+  .hero-scroll { display: none; }
+  .nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .nav-book { display: none; }
+  .nav-hamburger { display: flex; }
+  .two-col { grid-template-columns: 1fr; gap: 40px; }
+  .gallery-grid { grid-template-columns: 1fr; grid-template-rows: 280px; }
+  .gallery-item:nth-child(n+2) { display: none; }
+  .amenities-grid { grid-template-columns: 1fr 1fr; }
+  .seasons-grid { grid-template-columns: 1fr 1fr; }
+  .local-grid { grid-template-columns: 1fr; }
+  .story-block { grid-template-columns: 1fr; gap: 24px; }
+  .footer { flex-direction: column; gap: 24px; text-align: center; }
+  .book-bar { padding: 12px 24px; }
+  .book-bar-details { display: none; }
+  .divider { margin: 0 24px; }
+}
