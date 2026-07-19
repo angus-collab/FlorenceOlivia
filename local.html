@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Local Area — Florence & Olivia, Strahan Tasmania</title>
+<link rel="stylesheet" href="brand.css">
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="/" class="nav-logo">Florence <em>&amp; Olivia</em></a>
+  <ul class="nav-links">
+    <li><a href="property.html">The Property</a></li>
+    <li><a href="amenities.html">Amenities</a></li>
+    <li><a href="local.html" class="active">Local Area</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="book.html" class="btn btn-primary nav-book">Book a Stay</a>
+  <button class="nav-hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-drawer" id="drawer">
+  <button class="nav-drawer-close" onclick="toggleNav()">✕</button>
+  <a href="property.html" onclick="toggleNav()">The Property</a>
+  <a href="amenities.html" onclick="toggleNav()">Amenities</a>
+  <a href="local.html" onclick="toggleNav()">Local Area</a>
+  <a href="contact.html" onclick="toggleNav()">Contact</a>
+  <a href="book.html" onclick="toggleNav()">Book a Stay</a>
+</div>
+
+<section style="padding:140px 60px 80px">
+  <div class="container">
+    <div style="margin-bottom:60px">
+      <div class="eyebrow" style="margin-bottom:12px">Strahan &amp; beyond</div>
+      <h1 style="font-size:clamp(2rem,5vw,3.5rem)">The west coast<br>has a lot to offer.</h1>
+    </div>
+
+    <div style="margin-bottom:48px">
+      <div class="eyebrow" style="margin-bottom:20px">On the water</div>
+      <div class="local-grid">
+        <div class="local-item"><div class="local-cat">Cruise</div><div class="local-name">Gordon River Cruise</div><div class="local-dist">200m · 10 min walk</div><div class="local-desc">A full day on the Gordon River through World Heritage wilderness. Departs Strahan wharf. Book ahead in summer.</div></div>
+        <div class="local-item"><div class="local-cat">Walk</div><div class="local-name">Strahan Foreshore</div><div class="local-dist">2 min walk</div><div class="local-desc">The boardwalk along Macquarie Harbour. Morning light on the water. Best before 8am when the tour boats arrive.</div></div>
+        <div class="local-item"><div class="local-cat">Beach</div><div class="local-name">Ocean Beach</div><div class="local-dist">12km · 15 min</div><div class="local-desc">The longest beach in Tasmania. Wild, windswept, empty. Driftwood as far as you can see. Not for swimming.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:48px">
+      <div class="eyebrow" style="margin-bottom:20px">In the wilderness</div>
+      <div class="local-grid">
+        <div class="local-item"><div class="local-cat">Dunes</div><div class="local-name">Henty Dunes</div><div class="local-dist">20km · 20 min</div><div class="local-desc">Enormous sand dunes behind Ocean Beach. Surreal landscape. Walk to the top for views over the Southern Ocean.</div></div>
+        <div class="local-item"><div class="local-cat">National Park</div><div class="local-name">Cradle Mountain</div><div class="local-dist">195km · 2.5hr</div><div class="local-desc">One of Australia's great walks. The Overland Track begins here. Day walks from Dove Lake are extraordinary.</div></div>
+        <div class="local-item"><div class="local-cat">Rainforest</div><div class="local-name">Franklin-Gordon Wild Rivers</div><div class="local-dist">Surrounds Strahan</div><div class="local-desc">World Heritage listed. One of the last great temperate wildernesses on earth. The river cruise takes you through it.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:48px">
+      <div class="eyebrow" style="margin-bottom:20px">Eat &amp; drink</div>
+      <div class="local-grid">
+        <div class="local-item"><div class="local-cat">Restaurant</div><div class="local-name">The Strahan Village</div><div class="local-dist">5 min walk</div><div class="local-desc">The main dining option in town. Seafood, local produce. Book ahead for dinner in peak season.</div></div>
+        <div class="local-item"><div class="local-cat">Café</div><div class="local-name">Hamer's Hotel</div><div class="local-dist">3 min walk</div><div class="local-desc">Heritage pub, cold beer, simple food. The oldest continuously licenced hotel on the west coast.</div></div>
+        <div class="local-item"><div class="local-cat">Bakery</div><div class="local-name">Strahan Bakery</div><div class="local-dist">4 min walk</div><div class="local-desc">Pies, pastries, proper coffee. Essential for the morning before a day on the river.</div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="eyebrow" style="margin-bottom:20px">History</div>
+      <div class="local-grid">
+        <div class="local-item"><div class="local-cat">Heritage Rail</div><div class="local-name">West Coast Wilderness Railway</div><div class="local-dist">Departs Strahan</div><div class="local-desc">The rack railway from Strahan to Queenstown. One of the great heritage rail journeys in Australia.</div></div>
+        <div class="local-item"><div class="local-cat">History</div><div class="local-name">Macquarie Harbour Penal Station</div><div class="local-dist">Sarah Island · Boat access</div><div class="local-desc">Australia's most brutal convict settlement. Accessible by cruise. The Gordon River cruise passes the ruins.</div></div>
+        <div class="local-item"><div class="local-cat">Town</div><div class="local-name">Queenstown</div><div class="local-dist">41km · 40 min</div><div class="local-desc">The old mining town. Lunar landscape, colourful hills, world-class mountain biking. Completely unlike anywhere else.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+<section class="cta-block">
+  <div class="eyebrow" style="margin-bottom:16px">Stay at Florence &amp; Olivia</div>
+  <h2>The best base on the west coast.</h2>
+  <p>2 minutes from the Strahan wharf. Everything else is a short drive.</p>
+  <a href="book.html" class="btn btn-primary">Check Availability</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">Florence <em>&amp; Olivia</em></div>
+  <div class="footer-links"><a href="property.html">Property</a><a href="amenities.html">Amenities</a><a href="local.html">Local Area</a><a href="book.html">Book</a><a href="contact.html">Contact</a></div>
+  <div class="footer-ts">Part of the <a href="https://timbersea.com.au" style="color:var(--lichen)">TimberSea</a> collection</div>
+</footer>
+<script>
+function toggleNav(){ document.getElementById('drawer').classList.toggle('open'); }
+window.addEventListener('scroll', function(){ document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60); });
+</script>
+</body>
+</html>
