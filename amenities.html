@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Amenities — Florence & Olivia, Strahan Tasmania</title>
+<link rel="stylesheet" href="brand.css">
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="/" class="nav-logo">Florence <em>&amp; Olivia</em></a>
+  <ul class="nav-links">
+    <li><a href="property.html">The Property</a></li>
+    <li><a href="amenities.html" class="active">Amenities</a></li>
+    <li><a href="local.html">Local Area</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="book.html" class="btn btn-primary nav-book">Book a Stay</a>
+  <button class="nav-hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-drawer" id="drawer">
+  <button class="nav-drawer-close" onclick="toggleNav()">✕</button>
+  <a href="property.html" onclick="toggleNav()">The Property</a>
+  <a href="amenities.html" onclick="toggleNav()">Amenities</a>
+  <a href="local.html" onclick="toggleNav()">Local Area</a>
+  <a href="contact.html" onclick="toggleNav()">Contact</a>
+  <a href="book.html" onclick="toggleNav()">Book a Stay</a>
+</div>
+
+<section style="padding:140px 60px 80px">
+  <div class="container">
+    <div style="margin-bottom:60px">
+      <div class="eyebrow" style="margin-bottom:12px">What's included</div>
+      <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:0">Everything you need.<br>Nothing you don't.</h1>
+    </div>
+
+    <div class="amenities-grid" style="margin-bottom:60px">
+      <div class="amenity-item"><div class="amenity-icon">🛏</div><div class="amenity-name">2 Bedrooms</div><div class="amenity-desc">Queen in main, twin singles in second. Premium linen throughout.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">🔥</div><div class="amenity-name">Wood Fireplace</div><div class="amenity-desc">Firewood supplied. Nothing beats a west coast winter evening.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">🍳</div><div class="amenity-name">Full Kitchen</div><div class="amenity-desc">Everything you need to cook properly. Fridge, oven, stovetop, coffee.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">📶</div><div class="amenity-name">Fast WiFi</div><div class="amenity-desc">Reliable connection throughout the property.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">🧴</div><div class="amenity-name">Premium Toiletries</div><div class="amenity-desc">TimberSea Co. amenities. Restocked for every stay.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">☕</div><div class="amenity-name">Welcome Provisions</div><div class="amenity-desc">Coffee, tea, local produce. A small welcome from the west coast.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">🅿️</div><div class="amenity-name">Private Parking</div><div class="amenity-desc">Off-street parking for one vehicle.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">🔑</div><div class="amenity-name">Self Check-in</div><div class="amenity-desc">Arrive on your own schedule. Access details sent before arrival.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">🌊</div><div class="amenity-name">Harbour Views</div><div class="amenity-desc">Macquarie Harbour visible from the property.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">🐾</div><div class="amenity-name">Pet Friendly</div><div class="amenity-desc">Well-behaved dogs welcome. Let us know when booking.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">📺</div><div class="amenity-name">Smart TV</div><div class="amenity-desc">Netflix and streaming. Though you may not use it.</div></div>
+      <div class="amenity-item"><div class="amenity-icon">🧺</div><div class="amenity-name">Laundry</div><div class="amenity-desc">Washer and dryer available for longer stays.</div></div>
+    </div>
+
+    <div style="background:var(--pine);border:1px solid var(--border);padding:40px;margin-bottom:40px">
+      <div class="eyebrow" style="margin-bottom:16px">Extras available</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px">
+        <div><div style="font-size:13px;color:var(--text-bright);margin-bottom:4px">Welcome Hamper</div><div style="font-size:12px;color:var(--lichen)">$85</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Local produce, wine &amp; TimberSea Co. amenities</div></div>
+        <div><div style="font-size:13px;color:var(--text-bright);margin-bottom:4px">Late Checkout (2pm)</div><div style="font-size:12px;color:var(--lichen)">$50</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Subject to availability</div></div>
+        <div><div style="font-size:13px;color:var(--text-bright);margin-bottom:4px">Early Check-in (11am)</div><div style="font-size:12px;color:var(--lichen)">$50</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Subject to availability</div></div>
+        <div><div style="font-size:13px;color:var(--text-bright);margin-bottom:4px">Firewood Bundle</div><div style="font-size:12px;color:var(--lichen)">$35</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Seasoned hardwood</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+<section class="cta-block">
+  <div class="eyebrow" style="margin-bottom:16px">Book your stay</div>
+  <h2>From $295 per night.</h2>
+  <p>2 nights minimum · 2 bedrooms · 4 guests</p>
+  <a href="book.html" class="btn btn-primary">Check Availability</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">Florence <em>&amp; Olivia</em></div>
+  <div class="footer-links"><a href="property.html">Property</a><a href="amenities.html">Amenities</a><a href="local.html">Local Area</a><a href="book.html">Book</a><a href="contact.html">Contact</a></div>
+  <div class="footer-ts">Part of the <a href="https://timbersea.com.au" style="color:var(--lichen)">TimberSea</a> collection</div>
+</footer>
+<script>
+function toggleNav(){ document.getElementById('drawer').classList.toggle('open'); }
+window.addEventListener('scroll', function(){ document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60); });
+</script>
+</body>
+</html>
