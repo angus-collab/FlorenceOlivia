@@ -360,8 +360,9 @@ async function submitBooking(){
     for(var extra of selectedExtras){
       await fetch(SB+'/ts_booking_extras', {method:'POST', headers:H, body:JSON.stringify({booking_id:booking.id,name:extra.name,qty:1,unit_price:extra.price,total:extra.price})});
     }
-    fetch(EDGE+'/send-email', {method:'POST', headers:H, body:JSON.stringify({type:'enquiry_received',booking_id:booking.id})});
-    fetch(EDGE+'/send-email', {method:'POST', headers:H, body:JSON.stringify({type:'admin_new_enquiry',booking_id:booking.id})});
+    var EH = { 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' };
+    await fetch(EDGE+'/send-email', {method:'POST', headers:EH, body:JSON.stringify({type:'enquiry_received',booking_id:booking.id})});
+    fetch(EDGE+'/send-email', {method:'POST', headers:EH, body:JSON.stringify({type:'admin_new_enquiry',booking_id:booking.id})});
     document.getElementById('booking-form').style.display='none';
     var s = document.getElementById('success-block');
     s.style.display='flex';
