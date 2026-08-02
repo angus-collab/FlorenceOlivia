@@ -316,6 +316,25 @@ async function loadPropertyRates(){
   } catch(e){ console.warn('Could not load property rates', e); }
 }
 loadPropertyRates();
+
+// Handle return from Stripe Checkout
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var paymentStatus = params.get('payment');
+  var ref = params.get('ref');
+  if(paymentStatus === 'success'){
+    document.getElementById('booking-form').style.display='none';
+    var s = document.getElementById('success-block');
+    s.style.display='flex';
+    document.getElementById('success-ref').textContent = ref ? 'Reference: '+ref+' — Payment confirmed' : 'Payment confirmed';
+  } else if(paymentStatus === 'cancelled'){
+    var errEl = document.getElementById('form-error');
+    if(errEl){
+      errEl.textContent = 'Payment was cancelled. Your booking enquiry (ref: '+(ref||'—')+') is still saved — you can try paying again or contact us to arrange payment another way.';
+      errEl.style.display = 'block';
+    }
+  }
+})();
 var H = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 var EH = { 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' };
 var selectedExtras = [];
@@ -418,11 +437,27 @@ async function submitBooking(){
       await fetch(SB+'/ts_booking_extras', {method:'POST', headers:H, body:JSON.stringify({booking_id:booking.id,name:extra.name,qty:1,unit_price:extra.price,total:extra.price})});
     }
 
-    // Emails
+    // Emails — enquiry received, admin notified
     await fetch(EDGE+'/send-email', {method:'POST', headers:EH, body:JSON.stringify({type:'enquiry_received',booking_id:booking.id})});
     fetch(EDGE+'/send-email', {method:'POST', headers:EH, body:JSON.stringify({type:'admin_new_enquiry',booking_id:booking.id})});
 
-    // Success
+    // Redirect to Stripe Checkout to collect payment
+    btn.textContent = 'Redirecting to payment…';
+    var checkoutRes = await fetch(EDGE+'/create-checkout', {
+      method:'POST', headers:EH,
+      body:JSON.stringify({
+        booking_id: booking.id,
+        success_url: window.location.origin + '/book.html?payment=success&ref=' + (booking.booking_ref||''),
+        cancel_url: window.location.origin + '/book.html?payment=cancelled&ref=' + (booking.booking_ref||'')
+      })
+    });
+    var checkoutData = await checkoutRes.json();
+    if(checkoutData.ok && checkoutData.checkout_url){
+      window.location.href = checkoutData.checkout_url;
+      return;
+    }
+    // Fallback: if Stripe isn't configured yet, show the normal success screen so the booking flow still works
+    console.warn('Stripe checkout unavailable, showing standard confirmation:', checkoutData.error);
     document.getElementById('booking-form').style.display='none';
     var s = document.getElementById('success-block');
     s.style.display='flex';
