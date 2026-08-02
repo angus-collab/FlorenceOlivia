@@ -54,6 +54,7 @@
 <nav class="nav" id="nav">
   <a href="/" class="nav-logo">Florence <em>Olivia</em></a>
   <ul class="nav-links">
+    <li><a href="/">Home</a></li>
     <li><a href="property.html">The Property</a></li>
     <li><a href="amenities.html" class="active">Amenities</a></li>
     <li><a href="local.html">Local Area</a></li>
@@ -64,6 +65,7 @@
 </nav>
 <div class="nav-drawer" id="drawer">
   <button class="nav-drawer-close" onclick="toggleNav()">✕</button>
+  <a href="/" onclick="toggleNav()">Home</a>
   <a href="property.html" onclick="toggleNav()">The Property</a>
   <a href="amenities.html" onclick="toggleNav()">Amenities</a>
   <a href="local.html" onclick="toggleNav()">Local Area</a>
@@ -182,7 +184,7 @@
 <section class="cta-block">
   <div class="eyebrow" style="margin-bottom:16px">Ready to book</div>
   <h2>Two nights minimum.<br>No maximum.</h2>
-  <p>From $295 per night. We confirm personally within 24 hours.</p>
+  <p>From <span id="js-am-rate">$295</span> per night. We confirm personally within 24 hours.</p>
   <a href="book.html" class="btn btn-primary">Check Availability</a>
 </section>
 
@@ -203,6 +205,21 @@ function toggleNav(){ document.getElementById('drawer').classList.toggle('open')
 window.addEventListener('scroll', function(){ document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60); });
 var obs = new IntersectionObserver(function(e){ e.forEach(function(el){ if(el.isIntersecting){ el.target.style.opacity='1'; el.target.style.transform='translateY(0)'; }}); }, {threshold:0.1});
 document.querySelectorAll('.amenity-row, .amenities-list-section, .cta-block').forEach(function(el){ el.style.opacity='0'; el.style.transform='translateY(24px)'; el.style.transition='opacity .7s ease, transform .7s ease'; obs.observe(el); });
+</script>
+<script>
+(async function(){
+  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0cGxybnloYmxjYWx3eWlyb2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MTUxNDIsImV4cCI6MjA5OTk5MTE0Mn0.oUnGLIOt0_gqm4ARF1RYUPsTJRLnZIVJbdIzG5_alhw';
+  try {
+    var res = await fetch('https://btplrnyhblcalwyirolk.supabase.co/rest/v1/ts_properties?id=eq.8d3cb879-cd15-4218-884f-70406e1e234a&select=base_rate', {
+      headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+    });
+    var data = await res.json();
+    if(data && data[0] && data[0].base_rate){
+      var el = document.getElementById('js-am-rate');
+      if(el) el.textContent = '$' + parseFloat(data[0].base_rate).toFixed(0);
+    }
+  } catch(e){}
+})();
 </script>
 </body>
 </html>
