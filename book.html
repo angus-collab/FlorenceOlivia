@@ -245,10 +245,10 @@
           <div class="extra-name">Early Check-in (11am)</div>
           <div class="extra-price">$50</div>
         </div>
-        <div class="extra-item" onclick="toggleExtra(this,'Firewood bundle','35')">
+        <div class="extra-item" onclick="toggleExtra(this,'Breakfast provisions','45')">
           <div class="extra-check"></div>
-          <div class="extra-name">Firewood Bundle</div>
-          <div class="extra-price">$35</div>
+          <div class="extra-name">Breakfast Provisions</div>
+          <div class="extra-price">$45</div>
         </div>
       </div>
 
@@ -293,6 +293,7 @@ var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6
 var EDGE = 'https://btplrnyhblcalwyirolk.supabase.co/functions/v1';
 var PROP_ID = '8d3cb879-cd15-4218-884f-70406e1e234a';
 var H = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+var EH = { 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' };
 var selectedExtras = [];
 
 function toggleNav(){ document.getElementById('drawer').classList.toggle('open'); }
@@ -339,36 +340,73 @@ async function submitBooking(){
   var co = document.getElementById('check-out').value;
   var guests = document.getElementById('guests').value;
   var requests = document.getElementById('requests').value.trim();
-  if(!fname || !email || !ci || !co){ errEl.textContent='Please fill in your name, email, and dates.'; errEl.style.display='block'; return; }
-  var p = calcPrice();
-  if(!p || p.nights < 2){ errEl.textContent='Minimum stay is 2 nights.'; errEl.style.display='block'; return; }
+
+  // Clear validation
+  var missing = [];
+  if(!fname) missing.push('first name');
+  if(!email) missing.push('email');
+  if(!ci) missing.push('check-in date');
+  if(!co) missing.push('check-out date');
+  if(missing.length){ errEl.textContent='Please fill in: '+missing.join(', ')+'.'; errEl.style.display='block'; return; }
+
+  var nights = Math.round((new Date(co) - new Date(ci)) / 864e5);
+  if(nights < 2){ errEl.textContent='Minimum stay is 2 nights.'; errEl.style.display='block'; return; }
+
+  var rate = 295, clean = 150;
+  var extrasTotal = selectedExtras.reduce(function(s,e){ return s+e.price; }, 0);
+  var total = (rate * nights) + clean + extrasTotal;
+
   var btn = document.getElementById('submit-btn');
   btn.textContent = 'Sending…'; btn.disabled = true;
+
   try{
+    // Find or create guest
     var guestRes = await fetch(SB+'/ts_guests?email=eq.'+encodeURIComponent(email), {headers:H});
+    if(!guestRes.ok) throw new Error('Guest lookup failed: '+guestRes.status);
     var gf = await guestRes.json();
     var guestId;
-    if(gf && gf.length){ guestId = gf[0].id; }
-    else {
-      var ng = await fetch(SB+'/ts_guests', {method:'POST', headers:H, body:JSON.stringify({first_name:fname,last_name:lname,email:email,phone:phone})});
-      var nd = await ng.json();
+    if(gf && gf.length){
+      guestId = gf[0].id;
+      // Update phone/name if changed
+      await fetch(SB+'/ts_guests?id=eq.'+guestId, {method:'PATCH', headers:H, body:JSON.stringify({first_name:fname,last_name:lname||'',phone:phone||''})});
+    } else {
+      var ngRes = await fetch(SB+'/ts_guests', {method:'POST', headers:H, body:JSON.stringify({first_name:fname,last_name:lname||'',email:email,phone:phone||''})});
+      if(!ngRes.ok) throw new Error('Guest create failed: '+await ngRes.text());
+      var nd = await ngRes.json();
       guestId = Array.isArray(nd) ? nd[0].id : nd.id;
     }
-    var br = await fetch(SB+'/ts_bookings', {method:'POST', headers:H, body:JSON.stringify({property_id:PROP_ID,guest_id:guestId,status:'enquiry',source:'direct',check_in:ci,check_out:co,num_guests:parseInt(guests),rate_per_night:p.rate,cleaning_fee:p.clean,extras_total:p.extrasTotal,total_amount:p.total,special_requests:requests||null})});
-    var bd = await br.json();
+    if(!guestId) throw new Error('No guest ID returned');
+
+    // Create booking
+    var brRes = await fetch(SB+'/ts_bookings', {method:'POST', headers:H, body:JSON.stringify({
+      property_id:PROP_ID, guest_id:guestId, status:'enquiry', source:'direct',
+      check_in:ci, check_out:co, nights:nights, num_guests:parseInt(guests)||2,
+      rate_per_night:rate, cleaning_fee:clean, extras_total:extrasTotal,
+      total_amount:total, special_requests:requests||null
+    })});
+    if(!brRes.ok) throw new Error('Booking create failed: '+await brRes.text());
+    var bd = await brRes.json();
     var booking = Array.isArray(bd) ? bd[0] : bd;
+    if(!booking || !booking.id) throw new Error('No booking ID returned');
+
+    // Extras
     for(var extra of selectedExtras){
       await fetch(SB+'/ts_booking_extras', {method:'POST', headers:H, body:JSON.stringify({booking_id:booking.id,name:extra.name,qty:1,unit_price:extra.price,total:extra.price})});
     }
-    var EH = { 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' };
+
+    // Emails
     await fetch(EDGE+'/send-email', {method:'POST', headers:EH, body:JSON.stringify({type:'enquiry_received',booking_id:booking.id})});
     fetch(EDGE+'/send-email', {method:'POST', headers:EH, body:JSON.stringify({type:'admin_new_enquiry',booking_id:booking.id})});
+
+    // Success
     document.getElementById('booking-form').style.display='none';
     var s = document.getElementById('success-block');
     s.style.display='flex';
-    if(booking.booking_ref) document.getElementById('success-ref').textContent='Reference: '+booking.booking_ref;
+    document.getElementById('success-ref').textContent = booking.booking_ref ? 'Reference: '+booking.booking_ref : '';
+
   } catch(e){
-    errEl.textContent='Something went wrong. Please email hello@florenceolivia.com or call 0417 570 350.';
+    console.error('Booking error:', e);
+    errEl.textContent='Something went wrong — '+e.message+'. Please email hello@florenceolivia.com or call 0417 570 350.';
     errEl.style.display='block';
     btn.textContent='Request to Book'; btn.disabled=false;
   }
