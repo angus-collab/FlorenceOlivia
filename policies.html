@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Policies — Florence Olivia, Strahan Tasmania</title>
+<meta name="description" content="Cancellation policy, house rules, and stay information for Florence Olivia, Strahan.">
+<link rel="stylesheet" href="brand.css">
+<style>
+.pol-hero { position:relative; height:42vh; overflow:hidden; }
+.pol-hero img { width:100%; height:100%; object-fit:cover; object-position:center 30%; filter:brightness(0.62) saturate(0.72) contrast(1.15); display:block; }
+.pol-hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(10,11,9,.25) 0%, rgba(10,11,9,.65) 100%); }
+.pol-hero-content { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:0 6% 8%; }
+.pol-hero-content h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,6vw,72px); font-weight:300; color:#F4F1EC; line-height:1; }
+
+.pol-nav { display:flex; gap:0; border-bottom:1px solid rgba(244,241,236,0.1); background:var(--pine,#111510); position:sticky; top:72px; z-index:40; overflow-x:auto; }
+.pol-nav a { padding:18px 24px; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(244,241,236,0.45); text-decoration:none; white-space:nowrap; border-bottom:2px solid transparent; transition:all .2s; }
+.pol-nav a:hover, .pol-nav a.active { color:#F4F1EC; border-bottom-color:var(--lichen,#7B9E9A); }
+
+.pol-section { padding:64px 0; border-bottom:1px solid rgba(244,241,236,0.06); }
+.pol-section:last-child { border-bottom:none; }
+.pol-section h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; color:#F4F1EC; margin-bottom:24px; }
+.pol-section p { color:rgba(244,241,236,0.65); line-height:1.85; font-size:15px; margin-bottom:16px; }
+
+.pol-times { display:grid; grid-template-columns:1fr 1fr; gap:3px; margin:32px 0; }
+.pol-time-card { background:var(--pine,#111510); padding:32px; text-align:center; }
+.pol-time-label { font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(244,241,236,0.4); margin-bottom:12px; }
+.pol-time-value { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--lichen,#7B9E9A); }
+
+.pol-tiers { margin:28px 0; }
+.pol-tier { display:flex; justify-content:space-between; align-items:center; padding:20px 24px; background:var(--pine,#111510); margin-bottom:3px; }
+.pol-tier-label { font-size:14px; color:#F4F1EC; }
+.pol-tier-refund { font-size:13px; color:var(--lichen,#7B9E9A); letter-spacing:0.04em; font-weight:500; }
+
+.pol-rules { list-style:none; margin:24px 0; }
+.pol-rules li { padding:16px 0; border-bottom:1px solid rgba(244,241,236,0.07); color:rgba(244,241,236,0.7); font-size:15px; display:flex; gap:14px; align-items:flex-start; }
+.pol-rules li::before { content:'—'; color:var(--lichen,#7B9E9A); flex-shrink:0; }
+
+@media(max-width:640px){
+  .pol-times { grid-template-columns:1fr; }
+  .pol-tier { flex-direction:column; align-items:flex-start; gap:6px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="/" class="nav-logo">Florence <em>Olivia</em></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="property.html">The Property</a></li>
+    <li><a href="amenities.html">Amenities</a></li>
+    <li><a href="local.html">Local Area</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="book.html" class="btn btn-primary nav-book">Book a Stay</a>
+  <button class="nav-hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-drawer" id="drawer">
+  <button class="nav-drawer-close" onclick="toggleNav()">✕</button>
+  <a href="/" onclick="toggleNav()">Home</a>
+  <a href="property.html" onclick="toggleNav()">The Property</a>
+  <a href="amenities.html" onclick="toggleNav()">Amenities</a>
+  <a href="local.html" onclick="toggleNav()">Local Area</a>
+  <a href="contact.html" onclick="toggleNav()">Contact</a>
+  <a href="book.html" onclick="toggleNav()">Book a Stay</a>
+</div>
+
+<div class="pol-hero">
+  <img src="/images/fo-exterior-sign-3.jpg" alt="Florence Olivia">
+  <div class="pol-hero-overlay"></div>
+  <div class="pol-hero-content">
+    <div class="eyebrow" style="color:rgba(244,241,236,0.6);margin-bottom:14px">Stay Information</div>
+    <h1>Policies</h1>
+  </div>
+</div>
+
+<div class="pol-nav">
+  <a href="#times" class="active">Check-in &amp; Check-out</a>
+  <a href="#cancellation">Cancellation</a>
+  <a href="#rules">House Rules</a>
+  <a href="#damage">Damage &amp; Bond</a>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <div class="pol-section" id="times">
+      <h2>Check-in &amp; Check-out</h2>
+      <div class="pol-times">
+        <div class="pol-time-card">
+          <div class="pol-time-label">Check-in from</div>
+          <div class="pol-time-value" id="checkin-time">3:00 PM</div>
+        </div>
+        <div class="pol-time-card">
+          <div class="pol-time-label">Check-out by</div>
+          <div class="pol-time-value" id="checkout-time">10:00 AM</div>
+        </div>
+      </div>
+      <p>Self check-in — full access details are sent 3 days before your stay. Early check-in and late checkout can be added when booking, subject to availability.</p>
+    </div>
+
+    <div class="pol-section" id="cancellation">
+      <h2>Cancellation Policy</h2>
+      <p id="cancellation-text">Full refund for cancellations made 14+ days before check-in. 50% refund for cancellations made 7-13 days before check-in. No refund for cancellations made within 7 days of check-in.</p>
+      <div class="pol-tiers" id="cancellation-tiers"></div>
+    </div>
+
+    <div class="pol-section" id="rules">
+      <h2>House Rules</h2>
+      <ul class="pol-rules" id="house-rules"></ul>
+    </div>
+
+    <div class="pol-section" id="damage">
+      <h2>Damage &amp; Bond</h2>
+      <p id="damage-text">Guests are responsible for any damage caused during their stay beyond normal wear and tear. A security bond may be requested for certain bookings.</p>
+      <p id="minage-text" style="margin-top:24px">Minimum age to book: <strong id="minage-value" style="color:#F4F1EC">18</strong></p>
+    </div>
+
+    <div class="pol-section" id="notes" style="display:none">
+      <h2>Additional Notes</h2>
+      <p id="additional-notes-text"></p>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-block">
+  <div class="eyebrow" style="margin-bottom:16px">Questions before booking</div>
+  <h2>We're here to help.</h2>
+  <p>Reach out anytime — we respond personally within 24 hours.</p>
+  <a href="contact.html" class="btn btn-primary">Contact Us</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">Florence <em>Olivia</em></div>
+  <div class="footer-links">
+    <a href="property.html">Property</a>
+    <a href="amenities.html">Amenities</a>
+    <a href="local.html">Local Area</a>
+    <a href="book.html">Book</a>
+    <a href="contact.html">Contact</a>
+    <a href="policies.html">Policies</a>
+  </div>
+  <div class="footer-ts">Part of the <a href="https://timbersea.com.au" style="color:var(--lichen)">TimberSea</a> collection</div>
+</footer>
+
+<script>
+function toggleNav(){ document.getElementById('drawer').classList.toggle('open'); }
+window.addEventListener('scroll', function(){ document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60); });
+
+// Fetch live policies from Supabase
+(async function(){
+  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0cGxybnloYmxjYWx3eWlyb2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MTUxNDIsImV4cCI6MjA5OTk5MTE0Mn0.oUnGLIOt0_gqm4ARF1RYUPsTJRLnZIVJbdIzG5_alhw';
+  try {
+    var res = await fetch('https://btplrnyhblcalwyirolk.supabase.co/rest/v1/ts_properties?id=eq.8d3cb879-cd15-4218-884f-70406e1e234a&select=policies', {
+      headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+    });
+    var data = await res.json();
+    if(!data || !data[0] || !data[0].policies) return;
+    var p = data[0].policies;
+
+    if(p.check_in_time) document.getElementById('checkin-time').textContent = p.check_in_time;
+    if(p.check_out_time) document.getElementById('checkout-time').textContent = p.check_out_time;
+    if(p.cancellation_policy) document.getElementById('cancellation-text').textContent = p.cancellation_policy;
+    if(p.damage_policy) document.getElementById('damage-text').textContent = p.damage_policy;
+    if(p.minimum_age) document.getElementById('minage-value').textContent = p.minimum_age;
+
+    if(p.cancellation_tiers && p.cancellation_tiers.length){
+      var tiersEl = document.getElementById('cancellation-tiers');
+      tiersEl.innerHTML = '';
+      p.cancellation_tiers.forEach(function(t){
+        var div = document.createElement('div');
+        div.className = 'pol-tier';
+        div.innerHTML = '<span class="pol-tier-label">' + t.label + '</span><span class="pol-tier-refund">' + t.refund + '</span>';
+        tiersEl.appendChild(div);
+      });
+    }
+
+    if(p.house_rules && p.house_rules.length){
+      var rulesEl = document.getElementById('house-rules');
+      rulesEl.innerHTML = '';
+      p.house_rules.forEach(function(rule){
+        var li = document.createElement('li');
+        li.textContent = rule;
+        rulesEl.appendChild(li);
+      });
+    }
+
+    if(p.additional_notes && p.additional_notes.trim()){
+      document.getElementById('additional-notes-text').textContent = p.additional_notes;
+      document.getElementById('notes').style.display = 'block';
+    }
+  } catch(e){ console.warn('Could not load policies', e); }
+})();
+
+// Scroll spy for policy nav
+var sections = document.querySelectorAll('.pol-section[id]');
+var navLinks = document.querySelectorAll('.pol-nav a');
+window.addEventListener('scroll', function(){
+  var current = '';
+  sections.forEach(function(sec){
+    var rect = sec.getBoundingClientRect();
+    if(rect.top <= 150 && rect.bottom >= 150) current = sec.id;
+  });
+  navLinks.forEach(function(a){
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
