@@ -3,9 +3,54 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Amenities — Florence Olivia, Strahan Tasmania</title>
+<meta name="description" content="What's included at Florence Olivia — 2 bedrooms, full kitchen, heritage interiors, self check-in. Strahan, West Coast Tasmania.">
 <link rel="stylesheet" href="brand.css">
+<style>
+.amenities-hero { position:relative; height:60vh; overflow:hidden; }
+.amenities-hero img { width:100%; height:100%; object-fit:cover; filter:brightness(0.72) saturate(0.72) contrast(1.15); display:block; }
+.amenities-hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(10,11,9,.2) 0%, rgba(10,11,9,.6) 100%); }
+.amenities-hero-content { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:0 6% 8%; }
+.amenities-hero-content h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(42px,7vw,90px); font-weight:300; color:#F4F1EC; line-height:0.95; margin-bottom:16px; }
+.amenities-hero-content h1 em { font-style:italic; color:var(--lichen,#7B9E9A); }
+
+/* Photo + text rows */
+.amenity-row { display:grid; grid-template-columns:1fr 1fr; min-height:420px; }
+.amenity-row.flip { direction:rtl; }
+.amenity-row.flip > * { direction:ltr; }
+.amenity-photo { overflow:hidden; }
+.amenity-photo img { width:100%; height:100%; object-fit:cover; display:block; filter:brightness(0.88) saturate(0.72) contrast(1.15); transition:transform .6s ease; }
+.amenity-photo:hover img { transform:scale(1.03); }
+.amenity-info { background:var(--pine,#111510); padding:56px 52px; display:flex; flex-direction:column; justify-content:center; }
+.amenity-info .eyebrow { margin-bottom:14px; }
+.amenity-info h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,3vw,42px); font-weight:300; color:#F4F1EC; margin-bottom:18px; line-height:1.1; }
+.amenity-info p { color:rgba(244,241,236,0.6); line-height:1.8; font-size:15px; margin-bottom:20px; }
+.amenity-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.amenity-tag { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(244,241,236,0.4); border:1px solid rgba(244,241,236,0.12); padding:5px 12px; }
+
+/* Full amenities list */
+.amenities-list-section { background:var(--void,#0A0B09); padding:80px 0; }
+.amenities-list-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; }
+.amenities-list-item { padding:32px 36px; border-bottom:1px solid rgba(244,241,236,0.07); border-right:1px solid rgba(244,241,236,0.07); }
+.amenities-list-item:nth-child(3n) { border-right:none; }
+.ali-name { font-size:13px; color:#F4F1EC; margin-bottom:6px; }
+.ali-desc { font-size:12px; color:rgba(244,241,236,0.38); line-height:1.7; }
+
+@media(max-width:860px){
+  .amenity-row, .amenity-row.flip { grid-template-columns:1fr; direction:ltr; }
+  .amenity-photo { height:280px; }
+  .amenity-info { padding:36px 28px; }
+  .amenities-list-grid { grid-template-columns:1fr 1fr; }
+  .amenities-list-item:nth-child(3n) { border-right:1px solid rgba(244,241,236,0.07); }
+  .amenities-list-item:nth-child(2n) { border-right:none; }
+}
+@media(max-width:520px){
+  .amenities-list-grid { grid-template-columns:1fr; }
+  .amenities-list-item { border-right:none !important; }
+}
+</style>
 </head>
 <body>
+
 <nav class="nav" id="nav">
   <a href="/" class="nav-logo">Florence <em>Olivia</em></a>
   <ul class="nav-links">
@@ -26,56 +71,138 @@
   <a href="book.html" onclick="toggleNav()">Book a Stay</a>
 </div>
 
-<section style="padding:140px 60px 80px">
-  <div class="container">
-    <div style="margin-bottom:60px">
-      <div class="eyebrow" style="margin-bottom:12px">What's included</div>
-      <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-bottom:0">Everything you need.<br>Nothing you don't.</h1>
-    </div>
+<!-- Hero -->
+<div class="amenities-hero">
+  <img src="/images/fo-living-room-1.jpg" alt="Florence Olivia interior">
+  <div class="amenities-hero-overlay"></div>
+  <div class="amenities-hero-content">
+    <div class="eyebrow" style="color:rgba(244,241,236,0.6);margin-bottom:14px">What's included</div>
+    <h1>Everything you need.<br><em>Nothing you don't.</em></h1>
+  </div>
+</div>
 
-    <div class="amenities-grid" style="margin-bottom:60px">
-      <div class="amenity-item"><div class="amenity-icon">🛏</div><div class="amenity-name">2 Bedrooms</div><div class="amenity-desc">Queen in main, twin singles in second. Premium linen throughout.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">🔥</div><div class="amenity-name">Wood Fireplace</div><div class="amenity-desc">Firewood supplied. Nothing beats a west coast winter evening.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">🍳</div><div class="amenity-name">Full Kitchen</div><div class="amenity-desc">Everything you need to cook properly. Fridge, oven, stovetop, coffee.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">📶</div><div class="amenity-name">Fast WiFi</div><div class="amenity-desc">Reliable connection throughout the property.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">🧴</div><div class="amenity-name">Premium Toiletries</div><div class="amenity-desc">TimberSea Co. amenities. Restocked for every stay.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">☕</div><div class="amenity-name">Welcome Provisions</div><div class="amenity-desc">Coffee, tea, local produce. A small welcome from the west coast.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">🅿️</div><div class="amenity-name">Private Parking</div><div class="amenity-desc">Off-street parking for one vehicle.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">🔑</div><div class="amenity-name">Self Check-in</div><div class="amenity-desc">Arrive on your own schedule. Access details sent before arrival.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">🌊</div><div class="amenity-name">Harbour Views</div><div class="amenity-desc">Macquarie Harbour visible from the property.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">🐾</div><div class="amenity-name">Pet Friendly</div><div class="amenity-desc">Well-behaved dogs welcome. Let us know when booking.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">📺</div><div class="amenity-name">Smart TV</div><div class="amenity-desc">Netflix and streaming. Though you may not use it.</div></div>
-      <div class="amenity-item"><div class="amenity-icon">🧺</div><div class="amenity-name">Laundry</div><div class="amenity-desc">Washer and dryer available for longer stays.</div></div>
-    </div>
-
-    <div style="background:var(--pine);border:1px solid var(--border);padding:40px;margin-bottom:40px">
-      <div class="eyebrow" style="margin-bottom:16px">Extras available</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px">
-        <div><div style="font-size:13px;color:var(--text-bright);margin-bottom:4px">Welcome Hamper</div><div style="font-size:12px;color:var(--lichen)">$85</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Local produce, wine &amp; TimberSea Co. amenities</div></div>
-        <div><div style="font-size:13px;color:var(--text-bright);margin-bottom:4px">Late Checkout (2pm)</div><div style="font-size:12px;color:var(--lichen)">$50</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Subject to availability</div></div>
-        <div><div style="font-size:13px;color:var(--text-bright);margin-bottom:4px">Early Check-in (11am)</div><div style="font-size:12px;color:var(--lichen)">$50</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Subject to availability</div></div>
-        <div><div style="font-size:13px;color:var(--text-bright);margin-bottom:4px">Firewood Bundle</div><div style="font-size:12px;color:var(--lichen)">$35</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Seasoned hardwood</div></div>
-      </div>
+<!-- Bedroom row -->
+<div class="amenity-row">
+  <div class="amenity-photo">
+    <img src="/images/fo-bedroom.jpg" alt="Bedroom" loading="lazy">
+  </div>
+  <div class="amenity-info">
+    <div class="eyebrow">Sleep</div>
+    <h2>Two bedrooms. Proper beds.</h2>
+    <p>The main bedroom has a queen iron bed frame with premium linen. The second bedroom sleeps two. Both rooms are quiet — thick heritage walls, no road noise.</p>
+    <div class="amenity-tags">
+      <span class="amenity-tag">Queen bed</span>
+      <span class="amenity-tag">Twin singles</span>
+      <span class="amenity-tag">Premium linen</span>
+      <span class="amenity-tag">Bedside lamps</span>
     </div>
   </div>
-</section>
+</div>
 
-<div class="divider"></div>
+<!-- Living room row -->
+<div class="amenity-row flip">
+  <div class="amenity-photo">
+    <img src="/images/fo-gallery-wall-2.jpg" alt="Living room" loading="lazy">
+  </div>
+  <div class="amenity-info">
+    <div class="eyebrow">Relax</div>
+    <h2>A living room built for staying in.</h2>
+    <p>Deep velvet Chesterfield, original Tasmanian artwork, framed historical photographs of Strahan, and a Huon pine ceiling overhead. Smart TV with Netflix if you need it — though you probably won't.</p>
+    <div class="amenity-tags">
+      <span class="amenity-tag">Chesterfield sofa</span>
+      <span class="amenity-tag">Smart TV</span>
+      <span class="amenity-tag">Original artwork</span>
+      <span class="amenity-tag">Heritage joinery</span>
+    </div>
+  </div>
+</div>
+
+<!-- Kitchen row -->
+<div class="amenity-row">
+  <div class="amenity-photo">
+    <img src="/images/fo-kitchen-1.jpg" alt="Kitchen" loading="lazy">
+  </div>
+  <div class="amenity-info">
+    <div class="eyebrow">Cook</div>
+    <h2>A kitchen that actually works.</h2>
+    <p>Original cabinetry, full stovetop and oven, fridge, microwave, coffee setup, and a dining table for four. Set up for people who actually cook, not just for the look of it.</p>
+    <div class="amenity-tags">
+      <span class="amenity-tag">Full oven & stovetop</span>
+      <span class="amenity-tag">Fridge</span>
+      <span class="amenity-tag">Coffee setup</span>
+      <span class="amenity-tag">Dining for 4</span>
+      <span class="amenity-tag">Original cabinetry</span>
+    </div>
+  </div>
+</div>
+
+<!-- Bathroom row -->
+<div class="amenity-row flip">
+  <div class="amenity-photo">
+    <img src="/images/fo-bathroom-sink.jpg" alt="Bathroom" loading="lazy">
+  </div>
+  <div class="amenity-info">
+    <div class="eyebrow">Refresh</div>
+    <h2>A bathroom that holds its own.</h2>
+    <p>Exposed brick, timber barn door, glass-block windows, and deep charcoal towels. TimberSea Co. toiletries restocked for every stay.</p>
+    <div class="amenity-tags">
+      <span class="amenity-tag">Exposed brick</span>
+      <span class="amenity-tag">Timber barn door</span>
+      <span class="amenity-tag">TimberSea Co. toiletries</span>
+      <span class="amenity-tag">Hairdryer</span>
+    </div>
+  </div>
+</div>
+
+<!-- Full list -->
+<div class="amenities-list-section">
+  <div class="container">
+    <div style="margin-bottom:48px">
+      <div class="eyebrow" style="margin-bottom:12px">Full inclusions</div>
+      <h2 style="color:#F4F1EC">Everything in detail.</h2>
+    </div>
+    <div class="amenities-list-grid">
+      <div class="amenities-list-item"><div class="ali-name">Self Check-in</div><div class="ali-desc">Arrive on your own schedule. Access details sent before arrival.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Fast WiFi</div><div class="ali-desc">Reliable connection throughout the property.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Air Conditioning</div><div class="ali-desc">Split system heating and cooling throughout.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Private Parking</div><div class="ali-desc">Off-street parking for one vehicle directly outside.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Welcome Provisions</div><div class="ali-desc">Coffee, tea, and a small welcome from the west coast.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">TimberSea Co. Toiletries</div><div class="ali-desc">Full set restocked for every stay.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Washer & Dryer</div><div class="ali-desc">Available for longer stays.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Smart TV</div><div class="ali-desc">Netflix and streaming ready.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Pet Friendly</div><div class="ali-desc">Well-behaved dogs welcome. Let us know when booking.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Iron & Board</div><div class="ali-desc">Available on request.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Harbour Proximity</div><div class="ali-desc">Macquarie Harbour a short walk from the property.</div></div>
+      <div class="amenities-list-item"><div class="ali-name">Local Guide</div><div class="ali-desc">Our curated guide to Strahan and the west coast sent on booking.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
 <section class="cta-block">
-  <div class="eyebrow" style="margin-bottom:16px">Book your stay</div>
-  <h2>From $295 per night.</h2>
-  <p>2 nights minimum · 2 bedrooms · 4 guests</p>
+  <div class="eyebrow" style="margin-bottom:16px">Ready to book</div>
+  <h2>Two nights minimum.<br>No maximum.</h2>
+  <p>From $295 per night. We confirm personally within 24 hours.</p>
   <a href="book.html" class="btn btn-primary">Check Availability</a>
 </section>
 
 <footer class="footer">
   <div class="footer-logo">Florence <em>Olivia</em></div>
-  <div class="footer-links"><a href="property.html">Property</a><a href="amenities.html">Amenities</a><a href="local.html">Local Area</a><a href="book.html">Book</a><a href="contact.html">Contact</a></div>
+  <div class="footer-links">
+    <a href="property.html">Property</a>
+    <a href="amenities.html">Amenities</a>
+    <a href="local.html">Local Area</a>
+    <a href="book.html">Book</a>
+    <a href="contact.html">Contact</a>
+  </div>
   <div class="footer-ts">Part of the <a href="https://timbersea.com.au" style="color:var(--lichen)">TimberSea</a> collection</div>
 </footer>
+
 <script>
 function toggleNav(){ document.getElementById('drawer').classList.toggle('open'); }
 window.addEventListener('scroll', function(){ document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60); });
+var obs = new IntersectionObserver(function(e){ e.forEach(function(el){ if(el.isIntersecting){ el.target.style.opacity='1'; el.target.style.transform='translateY(0)'; }}); }, {threshold:0.1});
+document.querySelectorAll('.amenity-row, .amenities-list-section, .cta-block').forEach(function(el){ el.style.opacity='0'; el.style.transform='translateY(24px)'; el.style.transition='opacity .7s ease, transform .7s ease'; obs.observe(el); });
 </script>
 </body>
 </html>
