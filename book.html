@@ -160,7 +160,7 @@
       <h2>Florence<br><em>Olivia</em></h2>
       <div class="book-left-detail">
         2 Bedrooms &nbsp;·&nbsp; 4 Guests<br>
-        From $295 per night<br>
+        From <span id="js-rate-display">$295</span> per night<br>
         2 night minimum
       </div>
     </div>
@@ -255,7 +255,7 @@
       <!-- Price summary -->
       <div class="price-summary" id="price-summary" style="display:none">
         <div class="price-row"><span class="price-label" id="nights-label">Nights</span><span id="room-price">—</span></div>
-        <div class="price-row"><span class="price-label">Cleaning fee</span><span>$150</span></div>
+        <div class="price-row"><span class="price-label">Cleaning fee</span><span id="js-clean-display">$150</span></div>
         <div class="price-row" id="extras-row" style="display:none"><span class="price-label">Extras</span><span id="extras-price">—</span></div>
         <div class="price-row"><span class="price-label"><strong>Total</strong></span><span id="total-price" style="color:#F4F1EC;font-weight:400">—</span></div>
       </div>
@@ -292,6 +292,26 @@ var SB = 'https://btplrnyhblcalwyirolk.supabase.co/rest/v1';
 var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0cGxybnloYmxjYWx3eWlyb2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MTUxNDIsImV4cCI6MjA5OTk5MTE0Mn0.oUnGLIOt0_gqm4ARF1RYUPsTJRLnZIVJbdIzG5_alhw';
 var EDGE = 'https://btplrnyhblcalwyirolk.supabase.co/functions/v1';
 var PROP_ID = '8d3cb879-cd15-4218-884f-70406e1e234a';
+var PROP_RATE = 295;
+var PROP_CLEAN = 150;
+var PROP_MIN = 2;
+
+async function loadPropertyRates(){
+  try {
+    var res = await fetch(SB+'/ts_properties?id=eq.'+PROP_ID+'&select=base_rate,cleaning_fee,min_nights', {headers:H});
+    var data = await res.json();
+    if(data && data[0]){
+      PROP_RATE  = parseFloat(data[0].base_rate)   || 295;
+      PROP_CLEAN = parseFloat(data[0].cleaning_fee) || 150;
+      PROP_MIN   = parseInt(data[0].min_nights)     || 2;
+      var rateEl = document.getElementById('js-rate-display');
+      var cleanEl = document.getElementById('js-clean-display');
+      if(rateEl)  rateEl.textContent  = '$'+PROP_RATE;
+      if(cleanEl) cleanEl.textContent = '$'+PROP_CLEAN;
+    }
+  } catch(e){ console.warn('Could not load property rates', e); }
+}
+loadPropertyRates();
 var H = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 var EH = { 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' };
 var selectedExtras = [];
@@ -312,7 +332,7 @@ function calcPrice(){
   if(!ci || !co) return;
   var nights = Math.round((new Date(co) - new Date(ci)) / 864e5);
   if(nights < 1) return;
-  var rate = 295, clean = 150;
+  var rate = PROP_RATE, clean = PROP_CLEAN;
   var room = rate * nights;
   var extrasTotal = selectedExtras.reduce(function(s,e){ return s+e.price; }, 0);
   var total = room + clean + extrasTotal;
@@ -352,7 +372,7 @@ async function submitBooking(){
   var nights = Math.round((new Date(co) - new Date(ci)) / 864e5);
   if(nights < 2){ errEl.textContent='Minimum stay is 2 nights.'; errEl.style.display='block'; return; }
 
-  var rate = 295, clean = 150;
+  var rate = PROP_RATE, clean = PROP_CLEAN;
   var extrasTotal = selectedExtras.reduce(function(s,e){ return s+e.price; }, 0);
   var total = (rate * nights) + clean + extrasTotal;
 

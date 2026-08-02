@@ -130,7 +130,7 @@
 <div class="stats-bar">
   <div class="stat-item"><div class="stat-num">2</div><div class="stat-label">Bedrooms</div></div>
   <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Guests max</div></div>
-  <div class="stat-item"><div class="stat-num">$295</div><div class="stat-label">From per night</div></div>
+  <div class="stat-item"><div class="stat-num" id="js-index-rate">$295</div><div class="stat-label">From per night</div></div>
   <div class="stat-item"><div class="stat-num">2</div><div class="stat-label">Night minimum</div></div>
 </div>
 
@@ -315,7 +315,7 @@
   <div class="book-bar-details">
     <div class="book-bar-detail"><strong>2</strong><span>Bedrooms</span></div>
     <div class="book-bar-detail"><strong>4</strong><span>Guests max</span></div>
-    <div class="book-bar-detail"><strong>From $295</strong><span>Per night</span></div>
+    <div class="book-bar-detail"><strong id="js-bar-rate">From $295</strong><span>Per night</span></div>
   </div>
   <a href="book.html" class="btn btn-primary">Check Availability</a>
 </div>
@@ -392,6 +392,25 @@ var observer = new IntersectionObserver(function(entries){
 document.querySelectorAll('.section, .section-dark').forEach(function(el){
   el.style.opacity='0'; el.style.transform='translateY(20px)'; el.style.transition='opacity .7s ease, transform .7s ease'; observer.observe(el);
 });
+</script>
+<script>
+// Fetch live rate from DB
+(async function(){
+  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0cGxybnloYmxjYWx3eWlyb2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MTUxNDIsImV4cCI6MjA5OTk5MTE0Mn0.oUnGLIOt0_gqm4ARF1RYUPsTJRLnZIVJbdIzG5_alhw';
+  try {
+    var res = await fetch('https://btplrnyhblcalwyirolk.supabase.co/rest/v1/ts_properties?id=eq.8d3cb879-cd15-4218-884f-70406e1e234a&select=base_rate', {
+      headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+    });
+    var data = await res.json();
+    if(data && data[0] && data[0].base_rate){
+      var rate = '$' + parseFloat(data[0].base_rate).toFixed(0);
+      var el1 = document.getElementById('js-index-rate');
+      var el2 = document.getElementById('js-bar-rate');
+      if(el1) el1.textContent = rate;
+      if(el2) el2.textContent = 'From ' + rate;
+    }
+  } catch(e){}
+})();
 </script>
 </body>
 </html>
