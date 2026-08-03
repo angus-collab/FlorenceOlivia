@@ -312,14 +312,24 @@ var PROP_RATE = 295;
 var PROP_CLEAN = 150;
 var PROP_MIN = 2;
 
+// Only falls back to the default when the value is genuinely missing (null/undefined/not-a-number),
+// not when it's a real, intentionally-set 0 \u2014 `parseFloat(x) || fallback` looks equivalent but is
+// wrong here, because 0 is falsy in JS and would silently get replaced by the fallback even though
+// 0 is a completely valid price. This bug meant setting Florence Olivia's rate to $0 in the command
+// centre correctly saved to the database, but the booking page kept showing the old $295 anyway.
+function numOrDefault(val, fallback){
+  var n = parseFloat(val);
+  return (val === null || val === undefined || isNaN(n)) ? fallback : n;
+}
+
 async function loadPropertyRates(){
   try {
     var res = await fetch(SB+'/ts_properties?id=eq.'+PROP_ID+'&select=base_rate,cleaning_fee,min_nights', {headers:H});
     var data = await res.json();
     if(data && data[0]){
-      PROP_RATE  = parseFloat(data[0].base_rate)   || 295;
-      PROP_CLEAN = parseFloat(data[0].cleaning_fee) || 150;
-      PROP_MIN   = parseInt(data[0].min_nights)     || 2;
+      PROP_RATE  = numOrDefault(data[0].base_rate, 295);
+      PROP_CLEAN = numOrDefault(data[0].cleaning_fee, 150);
+      PROP_MIN   = Math.round(numOrDefault(data[0].min_nights, 2));
       var rateEl = document.getElementById('js-rate-display');
       var cleanEl = document.getElementById('js-clean-display');
       if(rateEl)  rateEl.textContent  = '$'+PROP_RATE;
