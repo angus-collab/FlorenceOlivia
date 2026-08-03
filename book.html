@@ -264,6 +264,18 @@
         <div class="price-row"><span class="price-label"><strong>Total</strong></span><span id="total-price" style="color:#F4F1EC;font-weight:400">—</span></div>
       </div>
 
+      <!-- Cancellation Policy -->
+      <div id="policy-card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(244,241,236,0.12);padding:20px 22px;margin:24px 0">
+        <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--lichen,#7B9E9A);margin-bottom:12px">Cancellation Policy</div>
+        <div id="policy-tiers-display" style="margin-bottom:14px">
+          <div style="font-size:12px;color:rgba(244,241,236,0.5);padding:8px 0">Loading policy…</div>
+        </div>
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding-top:12px;border-top:1px solid rgba(244,241,236,0.08)">
+          <input type="checkbox" id="policy-ack" style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:#7B9E9A;cursor:pointer">
+          <span style="font-size:12px;color:rgba(244,241,236,0.7);line-height:1.5">I have read and understand the cancellation policy above, and agree to it as a condition of this booking.</span>
+        </label>
+      </div>
+
       <!-- Trust -->
       <div class="trust-row">
         <div class="trust-item">Personal confirmation within 24hrs</div>
@@ -316,6 +328,37 @@ async function loadPropertyRates(){
   } catch(e){ console.warn('Could not load property rates', e); }
 }
 loadPropertyRates();
+
+var PROP_POLICY = null; // populated by loadPolicy(), read again when the booking is submitted so the exact terms agreed to are recorded
+
+async function loadPolicy(){
+  var displayEl = document.getElementById('policy-tiers-display');
+  try {
+    var res = await fetch(SB+'/ts_properties?id=eq.'+PROP_ID+'&select=policies', {headers:H});
+    var data = await res.json();
+    var policies = data && data[0] ? data[0].policies : null;
+    if(!policies){
+      displayEl.innerHTML = '<div style="font-size:12px;color:rgba(244,241,236,0.5)">Full refund for cancellations made 14+ days before check-in. Please contact us for full terms.</div>';
+      return;
+    }
+    PROP_POLICY = policies;
+    var tiers = policies.cancellation_tiers || [];
+    if(tiers.length){
+      var html = '';
+      tiers.forEach(function(t){
+        html += '<div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12px;color:rgba(244,241,236,0.75);border-bottom:1px solid rgba(244,241,236,0.06)">'
+          + '<span>'+ (t.label||'') +'</span><span style="color:#7B9E9A">'+ (t.refund||'') +'</span></div>';
+      });
+      displayEl.innerHTML = html;
+    } else if(policies.cancellation_policy){
+      displayEl.innerHTML = '<div style="font-size:12px;color:rgba(244,241,236,0.7);line-height:1.6">'+policies.cancellation_policy+'</div>';
+    }
+  } catch(e){
+    console.warn('Could not load cancellation policy', e);
+    displayEl.innerHTML = '<div style="font-size:12px;color:rgba(244,241,236,0.5)">Could not load policy details — please contact us before booking if you have questions about cancellation terms.</div>';
+  }
+}
+loadPolicy();
 
 // Capture UTM parameters for marketing attribution.
 // Reads from the current URL first; falls back to a stored value from earlier in the
@@ -414,6 +457,9 @@ async function submitBooking(){
   if(!co) missing.push('check-out date');
   if(missing.length){ errEl.textContent='Please fill in: '+missing.join(', ')+'.'; errEl.style.display='block'; return; }
 
+  var policyAck = document.getElementById('policy-ack').checked;
+  if(!policyAck){ errEl.textContent='Please confirm you understand and agree to the cancellation policy before booking.'; errEl.style.display='block'; document.getElementById('policy-card').scrollIntoView({behavior:'smooth', block:'center'}); return; }
+
   var nights = Math.round((new Date(co) - new Date(ci)) / 864e5);
   if(nights < 2){ errEl.textContent='Minimum stay is 2 nights.'; errEl.style.display='block'; return; }
 
@@ -462,7 +508,8 @@ async function submitBooking(){
       channel_id:resolvedChannelId, utm_source:attribution.utm_source, utm_medium:attribution.utm_medium, utm_campaign:attribution.utm_campaign,
       check_in:ci, check_out:co, nights:nights, num_guests:parseInt(guests)||2,
       rate_per_night:rate, cleaning_fee:clean, extras_total:extrasTotal,
-      total_amount:total, special_requests:requests||null
+      total_amount:total, special_requests:requests||null,
+      policy_acknowledged:true, policy_acknowledged_at:new Date().toISOString()
     })});
     if(!brRes.ok) throw new Error('Booking create failed: '+await brRes.text());
     var bd = await brRes.json();
