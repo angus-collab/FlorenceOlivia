@@ -112,6 +112,11 @@
 
     <div class="pol-section" id="damage">
       <h2>Damage &amp; Bond</h2>
+      <div id="bond-amount-card" style="display:none;background:var(--pine,#111510);padding:32px;text-align:center;margin-bottom:28px">
+        <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(244,241,236,0.4);margin-bottom:12px">Refundable Security Bond</div>
+        <div id="bond-amount-value" style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--lichen,#7B9E9A)">$300</div>
+        <div style="font-size:12px;color:rgba(244,241,236,0.5);margin-top:12px">Held for the duration of your stay, fully released after checkout</div>
+      </div>
       <p id="damage-text">Guests are responsible for any damage caused during their stay beyond normal wear and tear. A security bond may be requested for certain bookings.</p>
       <p id="minage-text" style="margin-top:24px">Minimum age to book: <strong id="minage-value" style="color:#F4F1EC">18</strong></p>
     </div>
@@ -163,6 +168,10 @@ window.addEventListener('scroll', function(){ document.getElementById('nav').cla
     if(p.check_out_time) document.getElementById('checkout-time').textContent = p.check_out_time;
     if(p.cancellation_policy) document.getElementById('cancellation-text').textContent = p.cancellation_policy;
     if(p.damage_policy) document.getElementById('damage-text').textContent = p.damage_policy;
+    if(p.security_bond_required !== false && p.security_bond_amount !== undefined && p.security_bond_amount !== null){
+      document.getElementById('bond-amount-value').textContent = '$' + Number(p.security_bond_amount).toFixed(0);
+      document.getElementById('bond-amount-card').style.display = 'block';
+    }
     if(p.minimum_age) document.getElementById('minage-value').textContent = p.minimum_age;
 
     if(p.cancellation_tiers && p.cancellation_tiers.length){
