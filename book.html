@@ -317,6 +317,28 @@ async function loadPropertyRates(){
 }
 loadPropertyRates();
 
+// Capture UTM parameters for marketing attribution.
+// Reads from the current URL first; falls back to a stored value from earlier in the
+// visit (e.g. if someone clicked an ad, landed on the homepage, then navigated to /book
+// separately — the attribution shouldn't be lost just because they're on a different page now).
+var attribution = (function(){
+  var params = new URLSearchParams(window.location.search);
+  var fromUrl = {
+    utm_source: params.get('utm_source'),
+    utm_medium: params.get('utm_medium'),
+    utm_campaign: params.get('utm_campaign'),
+  };
+  if(fromUrl.utm_source){
+    sessionStorage.setItem('ts_attribution', JSON.stringify(fromUrl));
+    return fromUrl;
+  }
+  try{
+    var stored = sessionStorage.getItem('ts_attribution');
+    if(stored) return JSON.parse(stored);
+  }catch(e){}
+  return { utm_source: null, utm_medium: null, utm_campaign: null };
+})();
+
 // Handle return from Stripe Checkout
 (function(){
   var params = new URLSearchParams(window.location.search);
@@ -420,9 +442,24 @@ async function submitBooking(){
     }
     if(!guestId) throw new Error('No guest ID returned');
 
+    // Resolve attribution: if we have a utm_source, try to match it to a known marketing channel
+    // so the KPI/marketing pages can attribute this booking automatically. Falls back gracefully
+    // to a plain source label if no match is found, so this never blocks the booking itself.
+    var resolvedChannelId = null;
+    var resolvedSource = 'direct';
+    if(attribution.utm_source){
+      resolvedSource = attribution.utm_source;
+      try{
+        var chRes = await fetch(SB+'/ts_marketing_channels?property_id=eq.'+PROP_ID+'&utm_source=eq.'+encodeURIComponent(attribution.utm_source)+'&select=id', {headers:H});
+        var chRows = await chRes.json();
+        if(chRows && chRows.length) resolvedChannelId = chRows[0].id;
+      }catch(e){ console.warn('Channel lookup failed, booking will still save with source label only', e); }
+    }
+
     // Create booking
     var brRes = await fetch(SB+'/ts_bookings', {method:'POST', headers:H, body:JSON.stringify({
-      property_id:PROP_ID, guest_id:guestId, status:'enquiry', source:'direct',
+      property_id:PROP_ID, guest_id:guestId, status:'enquiry', source:resolvedSource,
+      channel_id:resolvedChannelId, utm_source:attribution.utm_source, utm_medium:attribution.utm_medium, utm_campaign:attribution.utm_campaign,
       check_in:ci, check_out:co, nights:nights, num_guests:parseInt(guests)||2,
       rate_per_night:rate, cleaning_fee:clean, extras_total:extrasTotal,
       total_amount:total, special_requests:requests||null
