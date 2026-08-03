@@ -307,6 +307,14 @@
 var SB = 'https://btplrnyhblcalwyirolk.supabase.co/rest/v1';
 var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0cGxybnloYmxjYWx3eWlyb2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MTUxNDIsImV4cCI6MjA5OTk5MTE0Mn0.oUnGLIOt0_gqm4ARF1RYUPsTJRLnZIVJbdIzG5_alhw';
 var EDGE = 'https://btplrnyhblcalwyirolk.supabase.co/functions/v1';
+// Declared here, immediately after KEY, rather than further down where it originally lived \u2014
+// loadPropertyRates() (called near the top of this script) depends on H, and the UTM-attribution
+// code added earlier ended up sitting between the two, so H wasn't defined yet when the very
+// first fetch of this page tried to use it. That silent failure (fetch with undefined headers,
+// caught and swallowed) is exactly why the booking page kept showing the old $295/$150 defaults
+// no matter what was actually set in the command centre.
+var H = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+var EH = { 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' };
 var PROP_ID = '8d3cb879-cd15-4218-884f-70406e1e234a';
 var PROP_RATE = 295;
 var PROP_CLEAN = 150;
@@ -410,8 +418,6 @@ var attribution = (function(){
     }
   }
 })();
-var H = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
-var EH = { 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' };
 var selectedExtras = [];
 
 function toggleNav(){ document.getElementById('drawer').classList.toggle('open'); }
