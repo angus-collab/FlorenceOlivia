@@ -217,7 +217,7 @@ document.querySelectorAll('.amenity-row, .amenities-list-section, .cta-block').f
       headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
     });
     var data = await res.json();
-    if(data && data[0] && data[0].base_rate){
+    if(data && data[0] && data[0].base_rate !== null && data[0].base_rate !== undefined){
       var el = document.getElementById('js-am-rate');
       if(el) el.textContent = '$' + parseFloat(data[0].base_rate).toFixed(0);
     }
@@ -226,3 +226,4 @@ document.querySelectorAll('.amenity-row, .amenities-list-section, .cta-block').f
 </script>
 </body>
 </html>
+

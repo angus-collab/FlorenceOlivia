@@ -407,7 +407,12 @@ document.querySelectorAll('.section, .section-dark').forEach(function(el){
       headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
     });
     var data = await res.json();
-    if(data && data[0] && data[0].base_rate){
+    // A plain truthy check (`if(data[0].base_rate)`) treats a genuine $0 rate the same as
+    // missing data, since 0 is falsy in JavaScript \u2014 this was the exact bug already found
+    // and fixed on book.html earlier; index.html had its own separate copy of this same logic
+    // that never got the same fix. Checking specifically for null/undefined instead of
+    // truthiness is what correctly lets a real, intentional 0 display as $0.
+    if(data && data[0] && data[0].base_rate !== null && data[0].base_rate !== undefined){
       var rate = '$' + parseFloat(data[0].base_rate).toFixed(0);
       var el1 = document.getElementById('js-index-rate');
       var el2 = document.getElementById('js-bar-rate');

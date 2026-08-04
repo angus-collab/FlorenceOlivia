@@ -218,7 +218,7 @@ window.addEventListener('scroll',function(){ document.getElementById('nav').clas
       headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
     });
     var data = await res.json();
-    if(data && data[0] && data[0].base_rate){
+    if(data && data[0] && data[0].base_rate !== null && data[0].base_rate !== undefined){
       var rate = '$' + parseFloat(data[0].base_rate).toFixed(0);
       ['js-prop-rate','js-cta-rate'].forEach(function(id){
         var el = document.getElementById(id);
@@ -230,3 +230,4 @@ window.addEventListener('scroll',function(){ document.getElementById('nav').clas
 </script>
 </body>
 </html>
+
